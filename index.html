@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SpearMace — как родился новый стиль PvP в Minecraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Pixelify+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#8b6a46;--surface:#c6c6c6;--text:#1f1f1f;--muted:#404040;--accent:#2f7d1f;--accent2:#b8531c;--line:#373737;--hi:#ffffff;--lo:#555555;
+  --px:"Press Start 2P",ui-monospace,Consolas,monospace;
+  --body:"Pixelify Sans",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#2b1f14;--surface:#3a3a3a;--text:#eeeeee;--muted:#b8b8b8;--accent:#6fe04a;--accent2:#ffa13d;--line:#000000;--hi:#6b6b6b;--lo:#1c1c1c;color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#2b1f14;--surface:#3a3a3a;--text:#eeeeee;--muted:#b8b8b8;--accent:#6fe04a;--accent2:#ffa13d;--line:#000000;--hi:#6b6b6b;--lo:#1c1c1c;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:19px/1.6 var(--body);image-rendering:pixelated;
+  background-image:linear-gradient(45deg,rgba(0,0,0,.12) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.12) 75%),linear-gradient(45deg,rgba(0,0,0,.12) 25%,transparent 25%,transparent 75%,rgba(0,0,0,.12) 75%);
+  background-size:32px 32px;background-position:0 0,16px 16px}
+h1,h2,h3,.tag,.mc-btn,.n,footer,.timeline b{font-family:var(--px);font-weight:400}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px}
+.panel{background:var(--surface);border:4px solid var(--line);box-shadow:inset 4px 4px 0 var(--hi),inset -4px -4px 0 var(--lo);padding:22px;margin:22px 0}
+header.hero{max-width:900px;margin:0 auto;padding:40px 16px 4px;text-align:center}
+.tag{display:inline-block;font-size:11px;color:#fff;background:var(--accent);padding:6px 10px;border:3px solid var(--line);text-shadow:2px 2px #0007}
+h1{font-size:clamp(28px,8vw,56px);line-height:1.2;margin:18px 0 14px;color:#fff;text-shadow:4px 4px 0 #3f3f3f}
+h1 span{color:var(--accent2)}
+.lead{font-size:20px;max-width:640px;margin:0 auto 4px}
+h2{font-size:clamp(14px,3.6vw,20px);line-height:1.5;margin:0 0 18px;color:var(--accent2);text-shadow:2px 2px 0 var(--hi)}
+h3{font-size:12px;line-height:1.5;margin:0 0 8px}
+p{margin:0 0 12px}
+.mc-btn{display:inline-block;font-size:11px;line-height:1.4;color:#fff;background:#7a7a7a;border:3px solid #000;box-shadow:inset -4px -4px 0 #555,inset 4px 4px 0 #b9b9b9;padding:12px 14px;text-shadow:2px 2px 0 #3f3f3f;cursor:pointer;text-decoration:none}
+.mc-btn:hover,.mc-btn:focus-visible{background:#7b86c4;box-shadow:inset -4px -4px 0 #4e5890,inset 4px 4px 0 #b6c0f0;outline:none}
+.mc-btn:active{box-shadow:inset 4px 4px 0 #555,inset -4px -4px 0 #b9b9b9}
+.mc-btn.green{background:#3f9a2c;box-shadow:inset -4px -4px 0 #276a18,inset 4px 4px 0 #7fd36a}
+nav.bar,.bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
+.timeline{margin:0;padding:0 0 0 22px;border-left:4px solid var(--line)}
+.timeline li{list-style:none;margin-bottom:18px;position:relative}
+.timeline li::before{content:"";position:absolute;left:-31px;top:6px;width:12px;height:12px;background:var(--accent2);border:2px solid var(--line)}
+.timeline b{font-size:11px;color:var(--accent);display:block;margin-bottom:4px;line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+article.card,.card{background:var(--bg);color:#fff;border:3px solid var(--line);box-shadow:inset 3px 3px 0 #ffffff26,inset -3px -3px 0 #00000055;padding:16px}
+.card p{margin:0;font-size:17px;color:#efefef}
+.card h3{color:#ffd54a;text-shadow:2px 2px 0 #000}
+.n{font-size:10px;color:var(--accent2);display:block;margin-bottom:6px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.vs{grid-template-columns:1fr}}
+.note{border-left:8px solid var(--accent2);padding:10px 14px;margin:16px 0 0;background:#0000001a;font-size:17px}
+ul.list{padding-left:22px;margin:0}
+ul.list li{margin-bottom:8px}
+dialog{max-width:520px;width:calc(100% - 32px);padding:0;border:4px solid #000;background:var(--surface);color:var(--text);box-shadow:inset 4px 4px 0 var(--hi),inset -4px -4px 0 var(--lo)}
+dialog::backdrop{background:#000a}
+.dlg{margin:0;padding:22px}
+.dlg h3{font-size:14px;color:var(--accent2);margin-bottom:12px}
+.dlg p{font-size:19px}
+footer{padding:20px 0 48px;text-align:center;font-size:10px;line-height:1.8;color:#fff;text-shadow:2px 2px 0 #000}
+.inventory-img{width:100%;max-width:450px;display:block;margin:16px auto;border:3px solid var(--line);image-rendering:pixelated;}
+.inv-block{margin-top:22px}
+.inv-block h3{color:var(--accent2);margin:18px 0 10px;text-shadow:1px 1px 0 var(--hi)}
+.inv-list{padding-left:20px;margin:0 0 12px}
+.inv-list li{margin-bottom:6px;font-size:17px}
+.inv-list ul{padding-left:20px;margin-top:4px}
+</style>
+</head>
+<body>
+<header class="hero">
+  <span class="tag">Minecraft Java · PvP</span>
+  <h1>Spear<span>Mace</span></h1>
+  <p class="lead">Как копьё и булава слились в отдельный стиль PvP — и почему он научил игроков думать тиками, дистанцией и порядком переключений.</p>
+  <nav class="bar" aria-label="Разделы">
+    <a class="mc-btn" href="#origin">Зарождение</a><a class="mc-btn" href="#basics">Основы</a><a class="mc-btn" href="#tech">Техники</a><a class="mc-btn" href="#build">Сборка</a><a class="mc-btn" href="#warn">Важно</a>
+  </nav>
+  <div class="bar" role="group" aria-label="Информация о сайте">
+    <button class="mc-btn green" data-info="about">О сайте</button>
+    <button class="mc-btn green" data-info="how">Как читать</button>
+    <button class="mc-btn green" data-info="terms">Термины</button>
+    <button class="mc-btn green" data-info="ver">Версии</button>
+    <button class="mc-btn green" data-info="src">Источники</button>
+  </div>
+</header>
+
+<main class="wrap">
+<section id="origin" class="panel" aria-labelledby="h-origin">
+  <h2 id="h-origin">Как это началось</h2>
+  <ul class="timeline">
+    <li><b>2024 · Tricky Trials (1.21)</b>В игру приходит булава и ветровой заряд. Урон булавы растёт с высотой падения, а чары Breach игнорируют часть брони. Сразу рождаются приёмы вроде stun-slam: сначала топор сбивает щит, затем булава наносит удар.</li>
+    <li><b>Эпоха булавы</b>Игроки открывают «переключение атрибутов»: если сменить оружие на булаву с Breach сразу после удара более сильным оружием, удар использует урон сильного оружия плюс эффект чар булавы.</li>
+    <li><b>Mounts of Mayhem (1.21.11)</b>Появляется копьё и зачарование Lunge — рывок вперёд за счёт сытости. Сила копья зависит от скорости игрока, а не от высоты падения.</li>
+    <li><b>До релиза</b>Ещё до выхода обновления игрок показал на Reddit связку: копьё, затем сразу булава с Breach IV пробивает полный незеритовый комплект с Protection IV и даже тотем бессмертия. Приём в шутку назвали «hydrogen divebomb».</li>
+    <li><b>2026 · отдельная дисциплина</b>Появляются обучающие курсы (один из них обещает разбор 17 техник), гайды для Java и Bedrock, а также моды-помощники с «быстрым переключением на копьё».</li>
+  </ul>
+</section>
+
+<section id="basics" class="panel" aria-labelledby="h-basics">
+  <h2 id="h-basics">Почему именно копьё + булава</h2>
+  <div class="vs" role="group" aria-label="Сравнение оружия">
+    <article class="card"><h3>Булава</h3><p>Смэш-удар зависит от высоты падения, даёт огромный урон и отбрасывание. Чары Breach подходят для PvP, потому что режут эффективность брони.</p></article>
+    <article class="card"><h3>Копьё</h3><p>Заряженная атака зависит от скорости. Есть стадии: в первой можно наносить урон, отбрасывать и сбивать со скакуна, дальше возможности ослабевают. Lunge даёт рывок.</p></article>
+  </div>
+  <p style="margin-top:16px">Идея стиля: копьё даёт скорость, досягаемость и контроль, булава добивает огромным уроном. Всё мастерство — в том, как быстро и точно ты переключаешься между ними.</p>
+</section>
+
+<section id="tech" class="panel" aria-labelledby="h-tech">
+  <h2 id="h-tech">Уникальные техники</h2>
+  <div class="grid" role="group" aria-label="Список техник">
+    <article class="card"><span class="n">01</span><h3>Spear dash (Lunge)</h3><p>Рывок копьём сближает с целью за долю секунды. Дорого по сытости, поэтому используют точечно. Деревянное копьё бьёт быстрее остальных.</p></article>
+    <article class="card"><span class="n">02</span><h3>Spear → mace swap</h3><p>Удар копьём на разгоне, мгновенная смена на булаву и добивающий смэш. Основа всего стиля.</p></article>
+    <article class="card"><span class="n">03</span><h3>Attribute swapping</h3><p>Сильное оружие бьёт, затем смена на булаву с Breach переносит базовый урон. Также позволяет активировать Lunge без полного отката атаки.</p></article>
+    <article class="card"><span class="n">04</span><h3>Spear reach swap</h3><p>Копьё дотягивается дальше обычного оружия, поэтому первый удар наносят с дистанции, а затем меняют предмет. Точные входы зависят от версии.</p></article>
+    <article class="card"><span class="n">05</span><h3>Stun slam</h3><p>Топор отключает щит, булава бьёт следом. В копейной версии ту же роль играет копейный стан с «почти идеальным» шансом по щитам, как утверждают тренеры.</p></article>
+    <article class="card"><span class="n">06</span><h3>D-tap против тотема</h3><p>Два быстрых удара подряд, чтобы тотем сработал на первом, а второй добил. Связка с копьём и булавой пробивает защиту.</p></article>
+    <article class="card"><span class="n">07</span><h3>Pearl catch</h3><p>Ловля эндер-жемчуга в полёте и приземление впозицию для следующего смэша. У приёма есть несколько вариаций.</p></article>
+    <article class="card"><span class="n">08</span><h3>Elytra-дайв</h3><p>Набор высоты на элитрах с фейерверками, пикирование на цель, копьё и сразу булава. Самая зрелищная и самая затратная версия.</p></article>
+    <article class="card"><span class="n">09</span><h3>Tick lockout и пальцы</h3><p>Тонкая механика: учитывают игровые тики между действиями и раскладывают клавиши на разные пальцы, чтобы переключения не конфликтовали.</p></article>
+  </div>
+  <aside class="note">Список собран из открытых описаний сообщества.</aside>
+</section>
+
+<section id="build" class="panel" aria-labelledby="h-build">
+  <h2 id="h-build">Оптимальная сборка инвентаря</h2>
+  <p>Пример инвентаря для продвинутого PvP в стиле SpearMace (слоты брони, тотем в руке, основные расходники и оружие на панели быстрого доступа):</p>
+  <img src="inventory.png" alt="Сборка инвентаря SpearMace" class="inventory-img">
+
+  <div class="inv-block">
+    <h3>1. Экипировка (слоты брони слева)</h3>
+    <ul class="inv-list">
+      <li><b>Незеритовый шлем</b> — 1 шт. (надет и в слоте головы)</li>
+      <li><b>Незеритовый нагрудник</b> — 1 шт. (надет и в слоте торса)</li>
+      <li><b>Незеритовые поножи</b> — 1 шт. (надеты и в слоте ног)</li>
+      <li><b>Незеритовые ботинки</b> — 1 шт. (надеты и в слоте ступней)</li>
+      <li><i>Итог: полный комплект незеритовой брони на персонаже.</i></li>
+    </ul>
+
+    <h3>2. Вторая рука (Off-hand)</h3>
+    <ul class="inv-list">
+      <li><b>Тотем бессмертия</b> — 1 шт. (в слоте левой руки)</li>
+    </ul>
+
+    <h3>3. Сетка инвентаря (3 ряда по 9 слотов, слева направо)</h3>
+    <ul class="inv-list">
+      <li><b>Ряд 1 (верхний):</b>
+        <ul>
+          <li>1. Фейерверк (ракета) — <b>64 шт.</b></li>
+          <li>2. Эндер-жемчуг — <b>16 шт.</b></li>
+          <li>3. Фиолетовый шалкер-ящик — <b>1 шт.</b></li>
+          <li>4. Взрывное зелье (с жёлтой жидкостью) — <b>1 шт.</b></li>
+          <li>5. Тотем бессмертия — <b>1 шт.</b></li>
+          <li>6. Взрывное зелье (с жёлтой жидкостью) — <b>1 шт.</b></li>
+          <li>7. Взрывное зелье (с синей жидкостью) — <b>1 шт.</b></li>
+          <li>8. Взрывное зелье (с жёлтой жидкостью) — <b>1 шт.</b></li>
+          <li>9. Взрывное зелье (с синей жидкостью) — <b>1 шт.</b></li>
+        </ul>
+      </li>
+      <li><b>Ряд 2 (средний):</b>
+        <ul>
+          <li>1. Фейерверк (ракета) — <b>64 шт.</b></li>
+          <li>2. Эндер-жемчуг — <b>16 шт.</b></li>
+          <li>3. Взрывное зелье (с синей жидкостью) — <b>1 шт.</b></li>
+          <li>4. Взрывное зелье (с жёлтой жидкостью) — <b>1 шт.</b></li>
+          <li>5. Взрывное зелье (с синей жидкостью) — <b>1 шт.</b></li>
+          <li>6. Взрывное зелье (с жёлтой жидкостью) — <b>1 шт.</b></li>
+          <li>7. Взрывное зелье (с синей жидкостью) — <b>1 шт.</b></li>
+          <li>8. Взрывное зелье (с жёлтой жидкостью) — <b>1 шт.</b></li>
+          <li>9. Взрывное зелье (с синей жидкостью) — <b>1 шт.</b></li>
+        </ul>
+      </li>
+      <li><b>Ряд 3 (нижний):</b>
+        <ul>
+          <li>1. Фейерверк (ракета) — <b>64 шт.</b></li>
+          <li>2. Взрывное зелье (с жёлтой жидкостью) — <b>1 шт.</b></li>
+          <li>3. Взрывное зелье (с синей жидкостью) — <b>1 шт.</b></li>
+          <li>4. Взрывное зелье (с жёлтой жидкостью) — <b>1 шт.</b></li>
+          <li>5. Взрывное зелье (с синей жидкостью) — <b>1 шт.</b></li>
+          <li>6. Взрывное зелье (с жёлтой жидкостью) — <b>1 шт.</b></li>
+          <li>7. Взрывное зелье (с синей жидкостью) — <b>1 шт.</b></li>
+          <li>8. Взрывное зелье (с жёлтой жидкостью) — <b>1 шт.</b></li>
+          <li>9. Взрывное зелье (с синей жидкостью) — <b>1 шт.</b></li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>4. Панель быстрого доступа (Hotbar, слоты 1–9)</h3>
+    <ol class="inv-list">
+      <li>Жареное мясо (стейк) — <b>64 шт.</b></li>
+      <li>Незеритовый меч — <b>1 шт.</b></li>
+      <li>Щит — <b>1 шт.</b></li>
+      <li>Копьё (Spear) — <b>1 шт.</b></li>
+      <li>Зачарованное золотое яблоко (Гэп) — <b>64 шт.</b></li>
+      <li>Фейерверк (ракета) — <b>64 шт.</b></li>
+      <li>Эндер-жемчуг — <b>16 шт.</b></li>
+      <li>Незеритовый топор — <b>1 шт.</b></li>
+      <li>Булава (Mace) — <b>1 шт.</b></li>
+    </ol>
+  </div>
+</section>
+
+</main>
+<footer>
+  <p>© SpearMace PvP Project. Собрано для сообщества Minecraft.</p>
+</footer>
+</body>
+</html>
